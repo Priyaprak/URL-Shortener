@@ -13,11 +13,10 @@ const express = require('express')
 const shortId = require('shortid')
 const createHttpError = require('http-errors')
 var exphbs = require('express-handlebars');
+const mongoose = require('mongoose')
 const path = require('path')
-
+const ShortUrl = require('./models/urlModel')
 const databaseUrl = process.env.DATABASE;
-const port = process.env.PORT;
-
 //Initialize the app
 const app = express()
 
@@ -28,6 +27,17 @@ app.use(express.static(path.join(__dirname, 'public')))
 //Parse the incoming requests body .
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
+
+//Connect mongoDB local instance 
+mongoose
+  .connect(databaseUrl, {
+    dbName: 'url-shortner',
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  })
+  .then(() => console.log('Connected to MongoDB Successfully💾'))
+  .catch((error) => console.log('Error connecting DB..'))
 
 //Set view engine
 const hbs = exphbs.create({
@@ -45,6 +55,49 @@ app.get('/', async (req, res, next) => {
 })
 
 /**
+ * POST lONG url and convert to shortURL.
+ */
+ app.post('/', async (req, res, next) => {
+  try {
+    const { url } = req.body
+    if (!url) {
+      throw createHttpError.BadRequest('Provide a valid url')
+    }
+    const urlExists = await ShortUrl.findOne({ url })
+    if (urlExists) {
+      res.render('index', {
+        short_url: `${req.headers.host}/${urlExists.shortId}`,
+      })
+      return
+    }
+    const shortUrl = new ShortUrl({ url: url, shortId: shortId.generate() })
+    const result = await shortUrl.save()
+    res.render('index', {
+      short_url: `${req.headers.host}/${result.shortId}`,
+    })
+  } catch (error) {
+    next(error)
+  }
+})
+
+/**
+ * GET short URL web page
+ */
+app.get('/:shortId', async (req, res, next) => {
+  try {
+    const { shortId } = req.params
+    const result = await ShortUrl.findOne({ shortId })
+    if (!result) {
+      throw createHttpError.NotFound('Short url does not exist')
+    }
+    console.log("URL is "+result.url)
+    res.redirect(result.url)
+  } catch (error) {
+    next(error)
+  }
+})
+
+/**
  * Error handler-Route for 404 error
  */
 app.use((req, res, next) => {
@@ -59,4 +112,4 @@ app.use((err, req, res, next) => {
 /**
  * Listen to Server
  */
-app.listen(port, () => console.log('Server listening on port 3000...'))
+app.listen(3000, () => console.log('Server listening on port 3000...'))
