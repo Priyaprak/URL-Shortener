@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>URL Shortener</title>
+    <link rel="stylesheet" href="stylesheets/style.css" />
+  </head>
+  <body>
+    <section>
+      <div class="urlForm">
+        <form action="/" method="post">
+          <div class="form-group">
+              <input type="url"  class="form-control" name="url" id="longUrlText" placeholder="Paste the URL here..." />
+              <input type="submit" class="btn btn-primary btn-block " onclick="convertShortURL(this);" value="CreateShortURL" />
+          </div>
+                 
+          <!-- New ShortURL -->
+          <div class="short-url mt-3">
+              <a href="#" id="shortURLText">ShortURL: </a>
+          </div>
+      </form>
+      </div>
+    </section>
+    
+    <script src="javascript/urlShortener.js" defer></script>
+  </body>
+</html>
