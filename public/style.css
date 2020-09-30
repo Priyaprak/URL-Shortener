@@ -1,0 +1,45 @@
+/***********************************************************************************************
+**  Author @Shanthi Priya Mohan
+**  Created @September 2020
+**  File name:styles.css
+**  Environment @Neuda Assignment
+**  This stylesheets is used to style the HTML elements in the URL Shortener Webapplication.
+*************************************************************************************************/
+body {
+    display: grid;
+    place-items: center;
+    font-family: 'Nunito', sans-serif;
+    background-color: #e8eaf6;
+    color: #1a237e;
+  }
+  
+  .short-url {
+    margin: 20px;
+  }
+  
+  .short-url a {
+    color: #1a237e;
+    text-decoration: none;
+  }
+  
+  input[type='url'] {
+    display: block;
+  }
+  
+  input[type='submit'] {
+    display:block;
+    margin: 10px auto;
+    background-color: #3f51b5;
+    color: black;
+    border: 0px;
+    border-radius: 2px;
+    padding: 4px 8px;
+    font-family: 'Nunito', sans-serif;
+  }
+  footer p,dd a {
+    color: black;
+  }
+
+  p.error {
+    color: #f44336;
+  }
