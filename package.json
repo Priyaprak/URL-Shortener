@@ -1,10 +1,12 @@
 {
   "name": "url-shortener",
   "version": "1.0.0",
-  "description": "URL Shortener Web application",
-  "main": "app.js",
+  "description": "URL Shortener Web app",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app",
+    "dev": "nodemon app"
   },
   "repository": {
     "type": "git",
@@ -28,5 +30,8 @@
     "mongoose": "^5.10.7",
     "nodemon": "^2.0.4",
     "shortid": "^2.2.15"
+  },
+  "engines": {
+    "node": "12.16.3"
   }
 }
